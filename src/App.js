@@ -8,7 +8,7 @@ class Game extends React.Component {
     super(props);
     this.state = {
       squares: Array(9).fill(null),
-      history: [{}],
+      history: [],
       xIsNext: true
     };
   }
@@ -16,7 +16,7 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <Board history={this.state.history} />
+          <Board squares={this.state.squares} history={this.state.history} />
         </div>
         <div className="game-info">
           <div>{/* status */}</div>
