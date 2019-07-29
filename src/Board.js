@@ -1,6 +1,5 @@
 import React from "react";
 import Square from "./Square";
-
 export default class Board extends React.Component {
   constructor(props) {
     super(props);
@@ -21,11 +20,11 @@ export default class Board extends React.Component {
   }
 
   renderSquare(i) {
-    console.log(this.state.squares);
+    console.log(i,this.state.squares[i]);
     return (
       <Square
         value={this.state.squares[i]}
-        onClick={() => this.props.onClick(i)}
+        onClick={() => this.handleClick(i)}
       />
     );
   }
@@ -33,15 +32,29 @@ export default class Board extends React.Component {
   render() {
     const squares = this.state.squares;
     // const current = history[history.length - 1];
-    const winner = calculateWinner(squares);
-
+    const winner = calculateWinner(this.state.squares);
     let status;
     if (winner) {
-      status = "Winner: " + (this.state.xIsNext ? "X" : "O");
+      status = "Winner: " + winner;
+    }else {
+      status = 'Next player: ' + (this.state.xIsNext ? "X" : "O");
+    }
+    let full = calculateFull(squares);
+    let reset = null;
+    if (winner || full) {
+      reset = (<div onClick={() => {
+        // reset squares
+        this.setState({
+          squares: this.props.squares.slice()
+        })
+        // update board
+        // log scores?
+      }}>reset</div>);
     }
 
     return (
       <div>
+        <h1>TIC-TAC-TOE</h1>
         <div className="status">{status}</div>
         <div className="board-row">
           {this.renderSquare(0)}
@@ -58,9 +71,26 @@ export default class Board extends React.Component {
           {this.renderSquare(7)}
           {this.renderSquare(8)}
         </div>
+      {reset}
       </div>
     );
   }
+}
+function calculateFull(squares) {
+  for (let i = 0; i < 9; i++ ) {
+    console.log(i,squares[i])
+    if (squares[i]=== null){
+      return false;
+
+    }
+    
+
+
+  } 
+  
+  return true;                                                                                    
+
+
 }
 
 function calculateWinner(squares) {
