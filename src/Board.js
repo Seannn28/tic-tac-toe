@@ -1,10 +1,13 @@
 import React from "react";
 import Square from "./Square";
+
+import Timer from "./timer";
+
 export default class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: props.squares.slice()
+      squares: props.squares.slice(), player1timer: 20, player2timer: 20,
     };
   }
   handleClick(i) {
@@ -29,6 +32,8 @@ export default class Board extends React.Component {
       />
     );
   }
+  
+
 
   render() {
     const squares = this.state.squares;
@@ -78,7 +83,8 @@ export default class Board extends React.Component {
           {this.renderSquare(8, line && line.indexOf(8))}
           </div>
         <div>
-        
+        <Timer time={this.state.player1timer} paused={this.state.xIsNext}></Timer> <Timer time={this.state.player2timer} paused={!this.state.xIsNext}></Timer> 
+
         </div>
         <div>
             {Reset}
@@ -124,3 +130,4 @@ function calculateWinner(squares) {
   }
   return { winner: null, line: null };
 }
+

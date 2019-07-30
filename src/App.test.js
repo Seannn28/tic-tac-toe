@@ -4,17 +4,18 @@ import ReactDOM from 'react-dom';
 import { render, cleanup } from "@testing-library/react"
 import "@testing-library/jest-dom/extend-expect"
 
-import App from './App';
+// import App from './App';
 import Square from './Square';
 import Board from './Board';
+import AboutUs from './AboutUs';
 
 afterEach(cleanup);
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
-});
+// it('renders without crashing', () => {
+//   const div = document.createElement('div');
+//   ReactDOM.render(<App />, div);
+//   ReactDOM.unmountComponentAtNode(div);
+// });
 
 it('renders a square', () => {
   const div = document.createElement('div');
@@ -41,4 +42,8 @@ it('shows X winner correctly', () => {
 it('shows that a draw has occured', () => {
   const { getByText } = render(<Board squares={["O","O","X","X","X","O","O","X","O",]} />);
   expect( getByText('Its a draw!') ).toBeVisible();
+});
+it('checks if about us text apears', () => {
+  const { getByText } = render(<AboutUs />);
+  expect( getByText('About Us') ).toBeVisible();
 });

@@ -49,7 +49,8 @@
   outline: none;
   font-family: 'Lacquer', sans-serif;
   align-items: center;
-
+    animation-duration: 2s;
+    animation-name: bounceIn;
 }
 .winning{
   background-color: rgb(0, 255, 0);
@@ -76,7 +77,7 @@
   animation-name: flash;
 }
 
-Body{
+body{
  background-image: url(https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/iss060e014848.jpg);
  background-size: 100%;
  width: 100%;
@@ -85,6 +86,36 @@ Body{
  background-repeat: no-repeat;
  color: white;
  font-family: 'Aldrich', sans-serif;
+ text-align: center;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ justify-items: center;
+ width: 100%;
+}
+.aboutpara{
+  display: grid;
+  font-size: 33px;
+  margin-top: 100px;
+  padding-left: 100px;
+  padding-right: 100px;
+  color: purple;
+  border: 8px solid grey;
+  background: grey;
+  opacity: 0.9;
+  border-radius: 30px;
+  margin: 100px 20px 20px 20px;
+}
+.link{
+  background-color: #002564;
+  font-size: 30px;
+  margin-top: 15px;
+  border-radius: 30px;
+  color: grey;
+  width: 300px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .game {
@@ -92,6 +123,8 @@ Body{
   flex-direction: row;
   text-align: center;
   justify-content: center;
+  width: 100%;
+  
 }
 .resetbutton{
   color: black;
