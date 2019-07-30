@@ -9,7 +9,8 @@ export default class Board extends React.Component {
   }
   handleClick(i) {
     const squares = this.state.squares;
-    if (calculateWinner(this.state.squares) || this.state.squares[i]) {
+    const { winner, line } = calculateWinner(this.state.squares)
+    if (winner || this.state.squares[i]) {
       return;
     }
     squares[i] = this.state.xIsNext ? "X" : "O";
@@ -19,10 +20,10 @@ export default class Board extends React.Component {
     });
   }
 
-  renderSquare(i) {
-    console.log(i,this.state.squares[i]);
+  renderSquare(i, winning) {
     return (
       <Square
+        winning={winning}
         value={this.state.squares[i]}
         onClick={() => this.handleClick(i)}
       />
@@ -32,53 +33,64 @@ export default class Board extends React.Component {
   render() {
     const squares = this.state.squares;
     // const current = history[history.length - 1];
-    const winner = calculateWinner(this.state.squares);
+    const { winner, line } = calculateWinner(this.state.squares);
+    console.log(winner,line)
+    let full = calculateFull(squares);
     let status;
     if (winner) {
-      status = "Winner: " + winner;
+      status = 'Winner: ' + winner;
+    }else if(full){
+      status = 'Its a draw!' 
+
+    
     }else {
       status = 'Next player: ' + (this.state.xIsNext ? "X" : "O");
     }
-    let full = calculateFull(squares);
-    let reset = null;
+
+    let Reset = null;
     if (winner || full) {
-      reset = (<div onClick={() => {
+      Reset = (<div className="resetbutton" onClick={() => {
         // reset squares
         this.setState({
           squares: this.props.squares.slice()
         })
         // update board
         // log scores?
-      }}>reset</div>);
+      }}>Reset</div>);
     }
 
     return (
       <div>
         <h1>TIC-TAC-TOE</h1>
+        <h2>Space Edition</h2>
         <div className="status">{status}</div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
+        <div className="squares">
+          {this.renderSquare(0, line && line.indexOf(0) )}
+          {this.renderSquare(1, line && line.indexOf(1))}
+          {this.renderSquare(2, line && line.indexOf(2))}
+       
+          {this.renderSquare(3, line && line.indexOf(3))}
+          {this.renderSquare(4, line && line.indexOf(4))}
+          {this.renderSquare(5, line && line.indexOf(5))}
+     
+          {this.renderSquare(6, line && line.indexOf(6))}
+          {this.renderSquare(7, line && line.indexOf(7))}
+          {this.renderSquare(8, line && line.indexOf(8))}
+          </div>
+        <div>
+        
         </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
+        <div>
+            {Reset}
         </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      {reset}
+        
+    
       </div>
     );
   }
 }
 function calculateFull(squares) {
   for (let i = 0; i < 9; i++ ) {
-    console.log(i,squares[i])
     if (squares[i]=== null){
       return false;
 
@@ -107,8 +119,8 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return { winner: squares[a], line: lines[i] };
     }
   }
-  return null;
+  return { winner: null, line: null };
 }

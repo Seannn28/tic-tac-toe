@@ -6,8 +6,7 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: Array(9).fill(null),
-      history: [],
+      squares: [null,null,null,null,null,null,null,null,null],
       xIsNext: true
     };
   }
@@ -15,11 +14,7 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <Board squares={this.state.squares} history={this.state.history} />
-        </div>
-        <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
+          <Board squares={this.state.squares} />
         </div>
       </div>
     );
