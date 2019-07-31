@@ -33,15 +33,25 @@ export default class Board extends React.Component {
 
   handleClick(i) {
     const squares = this.state.squares;
-    const { winner } = calculateWinner(this.state.squares);
-    if (winner || this.state.squares[i]) {
+    if (this.state.squares[i]) {
       return;
+    } else {
+      squares[i] = this.state.xIsNext ? "X" : "O";
+
+      const { winner } = calculateWinner(squares);
+
+      if (winner) {
+        this.setState({
+          squares: squares,
+          xIsNext: null
+        });
+      } else {
+        this.setState({
+          squares: squares,
+          xIsNext: !this.state.xIsNext
+        });
+      }
     }
-    squares[i] = this.state.xIsNext ? "X" : "O";
-    this.setState({
-      squares: squares,
-      xIsNext: !this.state.xIsNext
-    });
   }
 
   renderSquare(i, winning) {
@@ -116,6 +126,7 @@ export default class Board extends React.Component {
     );
   }
 }
+
 function calculateFull(squares) {
   for (let i = 0; i < 9; i++) {
     if (squares[i] === null) {
