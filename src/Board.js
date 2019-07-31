@@ -2,14 +2,20 @@ import React from "react";
 import Square from "./Square";
 
 import Timer from "./timer";
+import Scoreboard from "./Scoreboard";
+import scoreboard from "./Scoreboard";
+
+let previoustime = null;
 
 export default class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       squares: props.squares.slice(),
-      player1timer: 20,
-      player2timer: 20,
+      player1timer: 20000,
+      player2timer: 20000,
+      player1score: 0,
+      player2score: 0,
       xIsNext: null
     };
 
@@ -20,36 +26,93 @@ export default class Board extends React.Component {
     requestAnimationFrame(this.updateTimer);
   }
 
-  updateTimer = () => {
+  updateTimer = (now) => {
+    if (!previoustime) previoustime = now;
+    let delta = now - previoustime;
+    previoustime = now
     requestAnimationFrame(this.updateTimer);
     if (this.state.xIsNext === true) {
-      const t = this.state.player1timer;
-      this.setState({ player1timer: t - 0.1 });
+      const t = this.state.player1timer - delta;
+      if(t <0) {
+        this.setState({
+          outoftime: "Player X",
+          player2score: +1,
+          xIsNext: null
+        })
+
+      
+      }
+      else {
+        this.setState({ player1timer: t});
+
+      }
+
+      
     } else if (this.state.xIsNext === false) {
-      const t = this.state.player2timer;
-      this.setState({ player2timer: t - 0.1 });
+      const t = this.state.player2timer - delta;
+      if(t < 0 ){
+        this.setState({
+          outoftime: "Player O",
+          player1score: +1,
+          xIsNext:null
+        })
+      }
+      this.setState({ player2timer: t});
     }
   };
 
   handleClick(i) {
     const squares = this.state.squares;
-    if (this.state.squares[i]) {
+    if (this.state.squares[i]){
       return;
-    } else {
-      squares[i] = this.state.xIsNext ? "X" : "O";
-      const { winner } = calculateWinner(squares);
-      if (winner) {
+    }else if(this.state.outoftime) {
+      return;
+    }
+    console.log(this.state.player1score)
+    if(this.state.player1score >= 4){
+      return;
+  
+    }
+
+    if(this.state.player2score >= 4){
+      return;
+  
+    }
+
+
+    let w = calculateWinner(squares);
+    if (w.winner) {
+      return;
+    }
+
+
+    squares[i] = this.state.xIsNext ? "X" : "O";
+    let w2 = calculateWinner(squares);
+
+    if (w2.winner) {
+      if (w2.winner==="X") {
         this.setState({
-          squares: squares,
-          xIsNext: null
-        });
+          player1score: this.state.player1score + 1
+       })
+ 
       } else {
         this.setState({
-          squares: squares,
-          xIsNext: !this.state.xIsNext
-        });
+          player2score: this.state.player2score + 1
+       })
+ 
       }
+      this.setState({
+        squares: squares,
+        xIsNext: null
+      });
+
+    } else {
+      this.setState({
+        squares: squares,
+        xIsNext: !this.state.xIsNext
+      });
     }
+    
   }
 
   renderSquare(i, winning) {
@@ -64,11 +127,19 @@ export default class Board extends React.Component {
 
   reset() {
     // reset game state
+    if(this.state.player1score >=4 || this.state.player2score >=4 ) {
+      this.setState({
+        player1score:0,
+        player2score:0,
+      })
+      
+    }
     this.setState({
       squares: this.props.squares.slice(),
       xIsNext: null,
-      player1timer: 20,
-      player2timer: 20
+      player1timer: 20000,
+      player2timer: 20000,
+      outoftime: null,
     });
     // update board
     // log scores?
@@ -84,20 +155,26 @@ export default class Board extends React.Component {
       status = "Winner: " + winner;
     } else if (full) {
       status = "Its a draw!";
+    } else if (this.state.outoftime) {
+      status = "Out of time: " + this.state.outoftime; 
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
 
     let Reset = null;
-    if (winner || full) {
+    if(this.state.player1score >= 4 || this.state.player2score >= 4 || winner || full || this.state.outoftime){
       Reset = (
         <div className="resetbutton" onClick={this.reset}>
           Reset
         </div>
+        
       );
     }
 
-    return (
+      if(this.state.outoftime) {
+
+      }
+      return (
       <div>
         <h1>TIC-TAC-TOE</h1>
         <h2>Space Edition</h2>
@@ -116,8 +193,12 @@ export default class Board extends React.Component {
           {this.renderSquare(8, line && line.indexOf(8))}
         </div>
         <div>
-          <Timer time={this.state.player1timer} paused={this.state.xIsNext} />
-          <Timer time={this.state.player2timer} paused={!this.state.xIsNext} />
+          <Timer time={this.state.player1timer} paused={this.state.xIsNext} title={"Player X timer: "} />
+          <Timer time={this.state.player2timer} paused={!this.state.xIsNext} title={"Player O timer: "} />
+        </div>
+        <div>
+          <Scoreboard scoreboard ={this.state.player1score} title={"Player X score: "} />
+          <Scoreboard scoreboard ={this.state.player2score} title={"Player O score: "} />
         </div>
         <div>{Reset}</div>
       </div>

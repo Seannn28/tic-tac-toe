@@ -8,6 +8,7 @@ import "@testing-library/jest-dom/extend-expect"
 import Square from './Square';
 import Board from './Board';
 import AboutUs from './AboutUs';
+import Scoreboard from './Scoreboard';
 
 afterEach(cleanup);
 
@@ -46,4 +47,9 @@ it('shows that a draw has occured', () => {
 it('checks if about us text apears', () => {
   const { getByText } = render(<AboutUs />);
   expect( getByText('About Us') ).toBeVisible();
+});
+it('Checks that reset button will reset player scores after max score', () => {
+  const {getByText} = render(<Scoreboard/>);
+  expect( getByText('5/4') ).not.toBeVisible();
+
 });

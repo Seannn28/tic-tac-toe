@@ -8,6 +8,7 @@
     "jest-dom": "^4.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-score-indicator": "^2.1.1",
     "react-scripts": "3.0.1",
     "react-testing-library": "^8.0.1",
     "wouter": "^2.1.1"

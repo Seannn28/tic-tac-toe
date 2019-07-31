@@ -7942,6 +7942,11 @@ react-is@^16.8.1, react-is@^16.8.4:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
   integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
 
+react-score-indicator@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-score-indicator/-/react-score-indicator-2.1.1.tgz#725d04701ad951da22c8101b1abc515e3e62835b"
+  integrity sha512-AzYB/J8xQQvotMjrtlMBfkdOfN0Fgz8hGPU5z9u5KFK57MRLbpLJ+UOjR01bRq596l74o0C6+FxFLX3BS2BLSg==
+
 react-scripts@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-3.0.1.tgz#e5565350d8069cc9966b5998d3fe3befe3d243ac"
