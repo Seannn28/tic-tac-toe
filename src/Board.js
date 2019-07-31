@@ -37,9 +37,7 @@ export default class Board extends React.Component {
       return;
     } else {
       squares[i] = this.state.xIsNext ? "X" : "O";
-
       const { winner } = calculateWinner(squares);
-
       if (winner) {
         this.setState({
           squares: squares,
